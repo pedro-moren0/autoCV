@@ -1,0 +1,26 @@
+{
+  description = "A LaTeX template with my neovim configuration.";
+
+  inputs = {
+    mynixvim.url = "github:pedro-moren0/neovim-config";
+  };
+
+  outputs =
+    { nixpkgs, mynixvim, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+
+      nvim = mynixvim.outputs.packages.${system}.default.extend {
+        plugins.vimtex.enable = true;
+        plugins.vimtex.texlivePackage = null;
+      };
+    in
+    {
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [
+          nvim
+        ];
+      };
+    };
+}

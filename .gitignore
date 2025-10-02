@@ -1,0 +1,4 @@
+.direnv
+
+cv.*
+!cv.tex
